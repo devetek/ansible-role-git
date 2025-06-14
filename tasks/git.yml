@@ -1,0 +1,24 @@
+---
+- block:
+    - name: create file ~/.netrc to access private git
+      shell: |
+        echo "machine {{ git_host }} login {{ git_user }} password {{ git_token }}" > ~/.netrc
+        chmod og-rw ~/.netrc
+      when: git_token != ''
+
+    - name: clone / update repository to {{ git_destination }}
+      git:
+        repo: "{{ git_repository }}"
+        dest: "{{ git_destination }}"
+        version: "{{ git_version }}"
+        force: "{{ git_force }}"
+        depth: "{{ git_depth }}"
+
+    - name: remove file ~/.netrc
+      ansible.builtin.file:
+        state: absent
+        path: "~/.netrc"
+      when: git_token != ''
+
+  become: true
+  become_user: "{{ git_linux_user }}"

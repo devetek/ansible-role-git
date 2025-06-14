@@ -1,0 +1,15 @@
+---
+- name: Check if git folder destination '{{ git_destination }}' exist
+  stat:
+    path: "{{ git_destination }}"
+  register: git_clone_dest
+
+- name: set fact when '{{ git_destination }}' exists
+  set_fact:
+    is_git_dest_exists: "yes"
+  when: git_clone_dest.stat.exists == true
+
+- name: set fact when '{{ git_destination }}' does not exists
+  set_fact:
+    is_git_dest_exists: "no"
+  when: git_clone_dest.stat.exists == false

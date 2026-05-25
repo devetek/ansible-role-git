@@ -1,64 +1,31 @@
-Ansible role: Git
-=========
+# Role Name
 
-his Ansible role manages cloning, checking out branches or tags, and updating repositories from Git sources. It simplifies Git operations in automation workflows and is suitable for use in CI/CD pipelines, application builds, or configuration sync tasks.
+Clone git repository, e.g: `https://<GIT-TOKEN>@<GIT-PROVIDER>/<REPO-OWNER>/<REPO-NAME>.git` or `https://<GIT-PROVIDER>/<REPO-OWNER>/<REPO-NAME>.git`
 
-Requirements
-------------
+## Requirements
 
-This role depends on the following Ansible roles to be applied beforehand:
+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-- A git role (e.g., [geerlingguy.git]) – to install and configure git
+## Role Variables
 
-Role Variables
---------------
+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-List of variables in ansible-role-build:
+## Dependencies
 
-```sh
----
-git_host: "github.com"
-git_version: "HEAD"
-git_repository: ""
-git_destination: ""
-git_force: true
-git_depth: 1
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-git_user: "root"
-git_token: ""
+## Example Playbook
 
-# linux related
-git_linux_user: "{{ git_user }}"
-```
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-Dependencies
-------------
+    - hosts: servers
+      roles:
+         - { role: username.rolename, x: 42 }
 
-This role depends on the following Ansible roles:
+## License
 
-- `git_installer`: Installs and configures git
+BSD
 
-Example Playbook
-----------------
+## Author Information
 
-```yaml
-- hosts: servers
-  roles:
-    - geerlingguy.git
-    - devetek.git
-```
-
-License
--------
-
-GNU General Public License v3.0 or later
-
-Author Information
-------------------
-
-[Nedya Prakasa]. Role created for [dPanel].
-
-[dPanel]: https://cloud.terpusat.com/
-[Nedya Prakasa]: https://github.com/prakasa1904
-[devetek]: https://github.com/devetek
-[geerlingguy.git]: https://galaxy.ansible.com/ui/standalone/roles/geerlingguy/git/
+An optional section for the role authors to include contact information, or a website (HTML is not allowed).

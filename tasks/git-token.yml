@@ -1,0 +1,19 @@
+---
+- block:
+    - name: clone / update project
+      git:
+        repo: "{{ git_repository_with_token }}"
+        dest: "{{ git_destination }}"
+        version: "{{ git_version }}"
+        force: "{{ git_force }}"
+        depth: "{{ git_depth }}"
+      no_log: true
+
+    - name: Change an existing Git remote URL
+      ansible.builtin.command: git remote set-url origin {{ git_repository }}
+      args:
+        chdir: "{{ git_destination }}"
+      changed_when: true # Or implement more sophisticated checks
+
+  become: true
+  become_user: "{{ git_linux_user }}"

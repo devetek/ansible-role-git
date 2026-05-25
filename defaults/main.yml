@@ -2,11 +2,12 @@
 git_host: "github.com"
 git_version: "HEAD"
 git_repository: ""
+git_repository_with_token: ""
 git_destination: ""
 git_force: true
 git_depth: 1
 
-git_user: "root"
+git_user: ""
 git_token: ""
 
 # linux related

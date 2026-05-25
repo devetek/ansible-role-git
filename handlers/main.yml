@@ -1,2 +1,7 @@
 ---
-# handlers file for git-clone
+- name: Remove NetRC
+  ansible.builtin.file:
+    state: absent
+    path: "~/.netrc"
+  ignore_errors: true
+  no_log: true

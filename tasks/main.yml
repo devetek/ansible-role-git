@@ -1,2 +1,7 @@
 ---
-- include_tasks: git.yml
+- include_tasks: git-netrc.yml
+  when: git_user != '' and git_token != ''
+
+# use git token if git_repository_with_token contains token
+- include_tasks: git-token.yml
+  when: git_user == '' and git_token == '' and git_repository_with_token != ''

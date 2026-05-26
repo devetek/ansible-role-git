@@ -6,9 +6,7 @@ git_repository_with_token: ""
 git_destination: ""
 git_force: true
 git_depth: 1
-
-git_user: ""
-git_token: ""
+git_default_branch: "main"
 
 # linux related
-git_linux_user: "{{ git_user }}"
+git_linux_user: "root"

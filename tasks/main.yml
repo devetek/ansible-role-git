@@ -1,7 +1,8 @@
 ---
-- include_tasks: git-netrc.yml
-  when: git_user != '' and git_token != ''
+- name: Validate dPanel GitHub App repository URL
+  ansible.builtin.fail:
+    msg: "git_repository_with_token is required. dPanel Git must use a GitHub App installation token, not git-netrc."
+  when: git_repository_with_token == ''
 
-# use git token if git_repository_with_token contains token
 - include_tasks: git-token.yml
-  when: git_user == '' and git_token == '' and git_repository_with_token != ''
+  when: git_repository_with_token != ''

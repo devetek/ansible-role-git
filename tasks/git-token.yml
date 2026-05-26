@@ -4,16 +4,26 @@
       git:
         repo: "{{ git_repository_with_token }}"
         dest: "{{ git_destination }}"
-        version: "{{ git_version }}"
+        version: "{{ git_default_branch | default(git_version, true) }}"
         force: "{{ git_force }}"
         depth: "{{ git_depth }}"
       no_log: true
+
+    - name: fetch requested git version
+      ansible.builtin.shell: |
+        set -e
+        git fetch --force origin {{ git_version }} --depth {{ git_depth }}
+        git checkout --force {{ git_version }}
+      args:
+        chdir: "{{ git_destination }}"
+      when: git_version != '' and git_version != (git_default_branch | default(git_version, true))
 
     - name: Change an existing Git remote URL
       ansible.builtin.command: git remote set-url origin {{ git_repository }}
       args:
         chdir: "{{ git_destination }}"
-      changed_when: true # Or implement more sophisticated checks
+      changed_when: false
+      when: git_repository != ''
 
   become: true
   become_user: "{{ git_linux_user }}"

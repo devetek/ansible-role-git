@@ -1,5 +1,8 @@
 ---
 - block:
+    # The repository URL carries the GitHub App token, so the task output stays
+    # hidden. Its result is registered, so a failure can still be reported
+    # below with credentials removed.
     - name: clone / update project
       git:
         repo: "{{ git_repository_with_token }}"
@@ -7,7 +10,22 @@
         version: "{{ git_default_branch | default(git_version, true) }}"
         force: "{{ git_force }}"
         depth: "{{ git_depth }}"
+      register: dpanel_git_clone
+      failed_when: false
       no_log: true
+
+    - name: report clone / update failure
+      ansible.builtin.fail:
+        msg: >-
+          git could not clone or update {{ git_repository | default('the repository', true) }}
+          at {{ git_default_branch | default(git_version, true) }} into {{ git_destination }}
+          as {{ git_linux_user }}:
+          {{ (dpanel_git_clone.msg | default(dpanel_git_clone.stderr | default(''), true))
+             | regex_replace('(?i)(https?://)[^/@\\s]+@', '\\1***@')
+             | regex_replace('gh[pousr]_[A-Za-z0-9_]+', '***')
+             | trim | truncate(1500) }}
+      # The git module only returns msg when it fails.
+      when: dpanel_git_clone.msg is defined or (dpanel_git_clone.rc | default(0)) != 0
 
     - name: fetch requested git version
       ansible.builtin.shell: |
